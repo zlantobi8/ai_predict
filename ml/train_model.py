@@ -27,7 +27,7 @@ import joblib
 import os
 
 RANDOM_SEED = 42
-N_SAMPLES = 6000
+N_SAMPLES = 8000
 
 try:                                   # `python ml/train_model.py` (script) or imported as a package
     from constants import EQUIPMENT_TYPES, MAINTENANCE_HISTORY, CONDITIONS
@@ -55,24 +55,36 @@ def _label_row(temp, vib, volt_dev, hours, history):
     return "Critical"
 
 
+# Three operating regimes so every condition (including "Critical") appears often
+# enough for the tree to learn it. Each regime draws readings from a different
+# distribution; the label is still computed by _label_row() from the readings.
+REGIMES = [
+    # name,      share, temp(mu, sd), vib(mu, sd), volt_sd, hours(mu),  history probs [recent, moderate, overdue]
+    ("normal",   0.50, (62, 12),      (1.5, 1.0),  8,       3000,       [0.50, 0.40, 0.10]),
+    ("degraded", 0.30, (78, 12),      (3.0, 1.5),  22,      6000,       [0.20, 0.50, 0.30]),
+    ("severe",   0.20, (95, 15),      (5.5, 2.0),  40,      9500,       [0.05, 0.35, 0.60]),
+]
+
+
 def build_dataset(n=N_SAMPLES, seed=RANDOM_SEED):
     rng = np.random.default_rng(seed)
+    shares = [r[1] for r in REGIMES]
     rows = []
     for _ in range(n):
+        _, _, (t_mu, t_sd), (v_mu, v_sd), volt_sd, h_mu, hist_p = REGIMES[
+            rng.choice(len(REGIMES), p=shares)
+        ]
         equipment_type = rng.choice(EQUIPMENT_TYPES)
-        history = rng.choice(MAINTENANCE_HISTORY, p=[0.4, 0.4, 0.2])
+        history = rng.choice(MAINTENANCE_HISTORY, p=hist_p)
 
-        temp = rng.normal(65, 18)
-        temp = float(np.clip(temp, 15, 130))
-
-        vib = abs(rng.normal(2.0, 1.6))
-        vib = float(np.clip(vib, 0, 12))
+        temp = float(np.clip(rng.normal(t_mu, t_sd), 15, 150))
+        vib = float(np.clip(abs(rng.normal(v_mu, v_sd)), 0, 15))
 
         nominal_voltage = 220.0
-        voltage = rng.normal(nominal_voltage, 12)
+        voltage = rng.normal(nominal_voltage, volt_sd)
         volt_dev = abs(voltage - nominal_voltage) / nominal_voltage * 100
 
-        hours = float(np.clip(rng.exponential(3500), 0, 15000))
+        hours = float(np.clip(rng.normal(h_mu, h_mu * 0.45), 0, 20000))
 
         label = _label_row(temp, vib, volt_dev, hours, history)
 
@@ -90,6 +102,9 @@ def build_dataset(n=N_SAMPLES, seed=RANDOM_SEED):
 
 def train():
     df = build_dataset()
+    print("Class balance in training data:")
+    print(df["condition"].value_counts().to_string())
+    print()
 
     equip_encoder = LabelEncoder().fit(EQUIPMENT_TYPES)
     history_encoder = LabelEncoder().fit(MAINTENANCE_HISTORY)
@@ -111,8 +126,8 @@ def train():
     )
 
     model = DecisionTreeClassifier(
-        max_depth=8,
-        min_samples_leaf=10,
+        max_depth=12,
+        min_samples_leaf=5,
         class_weight="balanced",
         random_state=RANDOM_SEED,
     )
