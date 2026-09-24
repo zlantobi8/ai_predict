@@ -1,0 +1,405 @@
+/* ================================
+   Prediction Page
+================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #243b53;
+}
+
+
+/* ================================
+   Main Layout
+================================ */
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* ================================
+   Sidebar
+================================ */
+
+.sidebar {
+    width: 250px;
+    background: #102a43;
+    color: white;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    padding: 20px 0;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 20px 25px;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.sidebar-brand i {
+    font-size: 23px;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sidebar-menu a {
+    color: #d9e2ec;
+    text-decoration: none;
+    padding: 13px 20px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.sidebar-menu a i {
+    font-size: 18px;
+}
+
+.sidebar-menu a:hover {
+    background: #1f4e79;
+    color: white;
+}
+
+.sidebar-menu a.active {
+    background: #1f4e79;
+    color: white;
+}
+
+
+/* ================================
+   Main Content
+================================ */
+
+.main-content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 30px;
+}
+
+
+/* ================================
+   Page Header
+================================ */
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #102a43;
+}
+
+.page-header p {
+    margin: 7px 0 0;
+    color: #627d98;
+    font-size: 14px;
+}
+
+
+/* ================================
+   Content Cards
+================================ */
+
+.content-card {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 3px 12px rgba(16, 42, 67, 0.08);
+    height: 100%;
+}
+
+.card-header-custom {
+    margin-bottom: 22px;
+}
+
+.card-header-custom h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #102a43;
+}
+
+.card-header-custom h4 i {
+    margin-right: 7px;
+}
+
+.card-header-custom p {
+    margin: 6px 0 0;
+    color: #7b8794;
+    font-size: 13px;
+}
+
+
+/* ================================
+   Form
+================================ */
+
+.form-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #334e68;
+    margin-bottom: 7px;
+}
+
+.form-control,
+.form-select {
+    min-height: 44px;
+    border: 1px solid #d9e2ec;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #1f4e79;
+    box-shadow: 0 0 0 0.15rem rgba(31, 78, 121, 0.12);
+}
+
+.input-group-text {
+    background: #f5f7fa;
+    border-color: #d9e2ec;
+    color: #627d98;
+    font-size: 13px;
+}
+
+
+/* ================================
+   Prediction Button
+================================ */
+
+.prediction-button-container {
+    margin-top: 10px;
+}
+
+.prediction-btn {
+    background: #1f4e79;
+    border-color: #1f4e79;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.prediction-btn:hover {
+    background: #163a5c;
+    border-color: #163a5c;
+}
+
+
+/* ================================
+   Prediction Result
+================================ */
+
+.result-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.prediction-result-placeholder {
+    flex: 1;
+    min-height: 330px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px;
+}
+
+.result-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #eaf2f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.result-icon i {
+    font-size: 32px;
+    color: #1f4e79;
+}
+
+.prediction-result-placeholder h5 {
+    color: #334e68;
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.prediction-result-placeholder p {
+    color: #7b8794;
+    font-size: 13px;
+    max-width: 300px;
+    line-height: 1.6;
+}
+
+
+/* ================================
+   Prediction History
+================================ */
+
+.history-card {
+    margin-top: 25px;
+    height: auto;
+}
+
+.prediction-table {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.prediction-table thead th {
+    background: #f5f7fb;
+    color: #486581;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 13px;
+    border-bottom: 1px solid #d9e2ec;
+}
+
+.prediction-table tbody td {
+    padding: 14px 13px;
+    vertical-align: middle;
+    color: #486581;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.prediction-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.prediction-table strong {
+    display: block;
+    color: #243b53;
+    font-weight: 600;
+}
+
+.prediction-table small {
+    display: block;
+    margin-top: 3px;
+    color: #829ab1;
+    font-size: 11px;
+}
+
+
+/* ================================
+   Status Badges
+================================ */
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.status-healthy {
+    background: #e3f9e5;
+    color: #1f7a3f;
+}
+
+.status-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-danger {
+    background: #fde8e7;
+    color: #c0392b;
+}
+
+
+/* ================================
+   Action Button
+================================ */
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.view-btn {
+    background: #eaf2f8;
+    color: #1f4e79;
+}
+
+.view-btn:hover {
+    background: #d7e6f2;
+}
+
+
+/* ================================
+   Responsive
+================================ */
+
+@media (max-width: 992px) {
+
+    .sidebar {
+        width: 220px;
+    }
+
+    .main-content {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+        padding: 20px;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+    }
+
+    .dashboard-container {
+        display: block;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .sidebar-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .sidebar-menu a {
+        padding: 10px 12px;
+    }
+}

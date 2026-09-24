@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports - Predictive Maintenance System</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Reports CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/reports.css') }}"
+    >
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+            <i class="bi bi-cpu"></i>
+            <span>Predictive Maintenance</span>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="{{ url_for('dashboard') }}">
+                <i class="bi bi-speedometer2"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{{ url_for('equipment') }}">
+                <i class="bi bi-tools"></i>
+                <span>Equipment</span>
+            </a>
+
+            <a href="{{ url_for('prediction') }}">
+                <i class="bi bi-graph-up-arrow"></i>
+                <span>Prediction</span>
+            </a>
+
+            <a href="{{ url_for('maintenance') }}">
+                <i class="bi bi-wrench-adjustable-circle"></i>
+                <span>Maintenance</span>
+            </a>
+
+            <a href="{{ url_for('reports') }}" class="active">
+                <i class="bi bi-file-earmark-bar-graph"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="{{ url_for('users') }}">
+                <i class="bi bi-people"></i>
+                <span>Users</span>
+            </a>
+
+            <a href="{{ url_for('history') }}">
+                <i class="bi bi-clock-history"></i>
+                <span>History</span>
+            </a>
+            <a href="{{ url_for('alerts') }}">
+                <i class="bi bi-bell"></i>
+                <span>Alerts</span>
+            </a>
+
+            <a href="#" data-logout>
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+
+            <div>
+                <h1>Reports</h1>
+
+                <p>
+                    View equipment, maintenance, and prediction reports.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- Summary Cards -->
+        <div class="row g-4 mb-4">
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="summary-card">
+
+                    <div class="summary-icon equipment-icon">
+                        <i class="bi bi-tools"></i>
+                    </div>
+
+                    <div>
+                        <span>Total Equipment</span>
+                        <h3 id="rpEquipment">–</h3>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="summary-card">
+
+                    <div class="summary-icon maintenance-icon">
+                        <i class="bi bi-wrench-adjustable"></i>
+                    </div>
+
+                    <div>
+                        <span>Maintenance Records</span>
+                        <h3 id="rpMaintenance">–</h3>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="summary-card">
+
+                    <div class="summary-icon prediction-icon">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+
+                    <div>
+                        <span>Predictions Made</span>
+                        <h3 id="rpPredictions">–</h3>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="summary-card">
+
+                    <div class="summary-icon fault-icon">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+
+                    <div>
+                        <span>At Risk / Faulty</span>
+                        <h3 id="rpAtRisk">–</h3>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Report Filters -->
+        <div class="content-card filter-card">
+
+            <div class="card-header-custom">
+
+                <div>
+                    <h4>
+                        <i class="bi bi-funnel"></i>
+                        Report Filters
+                    </h4>
+
+                    <p>
+                        Filter the information displayed in the reports.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Report Type
+                    </label>
+
+                    <select class="form-select" id="reportType">
+
+                        <option value="all">
+                            All Reports
+                        </option>
+
+                        <option value="equipment">
+                            Equipment Report
+                        </option>
+
+                        <option value="maintenance">
+                            Maintenance Report
+                        </option>
+
+                        <option value="prediction">
+                            Prediction Report
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        From Date
+                    </label>
+
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="fromDate"
+                    >
+
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        To Date
+                    </label>
+
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="toDate"
+                    >
+
+                </div>
+
+
+                <div class="col-md-2">
+
+                    <button
+                        type="button"
+                        class="btn btn-primary filter-btn"
+                        onclick="filterReport(this)"
+                    >
+                        <i class="bi bi-search"></i>
+                        Apply
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <p id="reportRange" class="text-muted small px-1 mt-2 mb-0"></p>
+
+        <!-- Equipment Status Report -->
+        <div class="row g-4 mt-1">
+
+            <div class="col-lg-6">
+
+                <div class="content-card">
+
+                    <div class="card-header-custom report-header">
+
+                        <div>
+                            <h4>
+                                <i class="bi bi-pie-chart"></i>
+                                Equipment Status
+                            </h4>
+
+                            <p>
+                                Current condition of registered equipment.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-report">
+
+                        <div class="report-row">
+                            <span>Healthy</span>
+
+                            <div class="progress">
+                                <div
+                                    class="progress-bar healthy-bar" id="barHealthy"
+                                    style="width: 0%;">
+                                </div>
+                            </div>
+
+                            <strong id="cntHealthy">–</strong>
+                        </div>
+
+
+                        <div class="report-row">
+                            <span>At Risk</span>
+
+                            <div class="progress">
+                                <div
+                                    class="progress-bar warning-bar" id="barAtRisk"
+                                    style="width: 0%;">
+                                </div>
+                            </div>
+
+                            <strong id="cntAtRisk">–</strong>
+                        </div>
+
+
+                        <div class="report-row">
+                            <span>Faulty</span>
+
+                            <div class="progress">
+                                <div
+                                    class="progress-bar danger-bar" id="barFaulty"
+                                    style="width: 0%;">
+                                </div>
+                            </div>
+
+                            <strong id="cntFaulty">–</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Maintenance Activity -->
+            <div class="col-lg-6">
+
+                <div class="content-card">
+
+                    <div class="card-header-custom report-header">
+
+                        <div>
+                            <h4>
+                                <i class="bi bi-wrench-adjustable-circle"></i>
+                                Maintenance Activity
+                            </h4>
+
+                            <p>
+                                Summary of recent maintenance activities.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="maintenance-summary">
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon scheduled">
+                                <i class="bi bi-calendar-check"></i>
+                            </div>
+
+                            <div>
+                                <strong>Scheduled</strong>
+                                <small>Upcoming maintenance</small>
+                            </div>
+
+                            <span id="actScheduled">–</span>
+
+                        </div>
+
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon due">
+                                <i class="bi bi-clock"></i>
+                            </div>
+
+                            <div>
+                                <strong>Due Soon</strong>
+                                <small>Requires attention</small>
+                            </div>
+
+                            <span id="actDue">–</span>
+
+                        </div>
+
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon overdue">
+                                <i class="bi bi-exclamation-circle"></i>
+                            </div>
+
+                            <div>
+                                <strong>Overdue</strong>
+                                <small>Needs immediate attention</small>
+                            </div>
+
+                            <span id="actOverdue">–</span>
+
+                        </div>
+
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon completed">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+
+                            <div>
+                                <strong>Completed</strong>
+                                <small>Maintenance completed</small>
+                            </div>
+
+                            <span id="actCompleted">–</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Prediction Summary -->
+        <div class="content-card prediction-report-card">
+
+            <div class="card-header-custom">
+
+                <div>
+                    <h4>
+                        <i class="bi bi-graph-up-arrow"></i>
+                        Prediction Summary
+                    </h4>
+
+                    <p>
+                        Summary of recent equipment prediction results.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table report-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Prediction</th>
+                            <th>Risk Level</th>
+                            <th>Number of Equipment</th>
+                            <th>Recommended Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="predictionSummaryBody"><tr><td colspan="4" class="text-center text-muted py-3">Loading…</td></tr></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- Report Actions -->
+        <div class="report-actions">
+
+            <button
+                type="button"
+                class="btn btn-outline-secondary"
+                onclick="printReport()"
+            >
+                <i class="bi bi-printer"></i>
+                Print Report
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                onclick="generateReport()"
+            >
+                <i class="bi bi-file-earmark-bar-graph"></i>
+                Generate Report
+            </button>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- Bootstrap JS -->
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<script src="{{ url_for('static', filename='js/api.js') }}"></script>
+<script src="{{ url_for('static', filename='js/reports.js') }}"></script>
+</body>
+</html>

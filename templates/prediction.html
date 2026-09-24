@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Predictive Maintenance System</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Prediction CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/prediction.css') }}"
+    >
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+            <i class="bi bi-cpu"></i>
+            <span>Predictive Maintenance</span>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="{{ url_for('dashboard') }}">
+                <i class="bi bi-speedometer2"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{{ url_for('equipment') }}">
+                <i class="bi bi-tools"></i>
+                <span>Equipment</span>
+            </a>
+
+            <a href="{{ url_for('prediction') }}" class="active">
+                <i class="bi bi-graph-up-arrow"></i>
+                <span>Prediction</span>
+            </a>
+
+            <a href="{{ url_for('maintenance') }}">
+                <i class="bi bi-wrench-adjustable-circle"></i>
+                <span>Maintenance</span>
+            </a>
+
+            <a href="{{ url_for('reports') }}">
+                <i class="bi bi-file-earmark-bar-graph"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="{{ url_for('users') }}">
+                <i class="bi bi-people"></i>
+                <span>Users</span>
+            </a>
+
+            <a href="{{ url_for('history') }}">
+                <i class="bi bi-clock-history"></i>
+                <span>History</span>
+            </a>
+            <a href="{{ url_for('alerts') }}">
+                <i class="bi bi-bell"></i>
+                <span>Alerts</span>
+            </a>
+
+           <a href="#" data-logout>
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+
+            <div>
+                <h1>Prediction</h1>
+
+                <p>
+                    Analyze equipment condition and predict possible maintenance needs.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- Prediction Area -->
+        <div class="row g-4">
+
+            <!-- Prediction Form -->
+            <div class="col-lg-7">
+
+                <div class="content-card">
+
+                    <div class="card-header-custom">
+                        <div>
+                            <h4>
+                                <i class="bi bi-activity"></i>
+                                Equipment Prediction
+                            </h4>
+
+                            <p>
+                                Enter the current equipment condition to generate a prediction.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <form id="predictionForm">
+
+                        <!-- Equipment -->
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Equipment
+                            </label>
+
+                            <select class="form-select" id="equipmentSelect" required>
+                                <option value="">Loading equipment…</option>
+                            </select>
+
+                        </div>
+
+
+                        <!-- Input Row -->
+                        <div class="row">
+
+                            <!-- Temperature -->
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Temperature
+                                </label>
+
+                                <div class="input-group">
+
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="temperature" step="any" placeholder="Enter temperature"
+                                        required
+                                    >
+
+                                    <span class="input-group-text">
+                                        °C
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Vibration -->
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Vibration
+                                </label>
+
+                                <div class="input-group">
+
+                                    <input
+                                        type="number"
+                                                                                class="form-control"
+                                        id="vibration" step="any" placeholder="Enter vibration"
+                                        required
+                                    >
+
+                                    <span class="input-group-text">
+                                        mm/s
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Second Input Row -->
+                        <div class="row">
+
+                            <!-- Voltage -->
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Voltage
+                                </label>
+
+                                <div class="input-group">
+
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="voltage" step="any" placeholder="Enter voltage"
+                                        required
+                                    >
+
+                                    <span class="input-group-text">
+                                        V
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Operating Hours -->
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Operating Hours
+                                </label>
+
+                                <div class="input-group">
+
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="operatingHours" step="any" placeholder="Enter operating hours"
+                                        required
+                                    >
+
+                                    <span class="input-group-text">
+                                        hrs
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Maintenance History -->
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Maintenance History
+                            </label>
+
+                            <select class="form-select" id="maintenanceHistory" required>
+
+                                <option value="">
+                                    Select maintenance history
+                                </option>
+
+                                <option value="recent">
+                                    Recently Maintained
+                                </option>
+
+                                <option value="moderate">
+                                    Moderately Maintained
+                                </option>
+
+                                <option value="overdue">
+                                    Maintenance Overdue
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- Button -->
+                        <div class="prediction-button-container">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary prediction-btn"
+                            >
+                                <i class="bi bi-cpu"></i>
+                                Run Prediction
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- Prediction Result -->
+            <div class="col-lg-5">
+
+                <div class="content-card result-card">
+
+                    <div class="card-header-custom">
+
+                        <div>
+                            <h4>
+                                <i class="bi bi-clipboard2-pulse"></i>
+                                Prediction Result
+                            </h4>
+
+                            <p>
+                                The predicted equipment condition will appear here.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="prediction-result-placeholder">
+
+                        <div class="result-icon">
+                            <i class="bi bi-robot"></i>
+                        </div>
+
+                        <h5>No Prediction Yet</h5>
+
+                        <p>
+                            Enter the equipment condition and click
+                            <strong>Run Prediction</strong> to generate a result.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Prediction History -->
+        <div class="content-card history-card">
+
+            <div class="card-header-custom">
+
+                <div>
+                    <h4>
+                        <i class="bi bi-clock-history"></i>
+                        Prediction History
+                    </h4>
+
+                    <p>
+                        Recent equipment prediction results.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table prediction-table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Equipment</th>
+                            <th>Prediction</th>
+                            <th>Risk Level</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="predictionHistoryBody"><tr><td colspan="6" class="text-center text-muted py-3">Loading…</td></tr></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- Bootstrap JS -->
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<script src="{{ url_for('static', filename='js/api.js') }}"></script>
+<script src="{{ url_for('static', filename='js/prediction.js') }}"></script>
+</body>
+</html>

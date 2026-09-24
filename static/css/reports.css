@@ -1,0 +1,535 @@
+/* ================================
+   Reports Page
+================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #243b53;
+}
+
+
+/* ================================
+   Main Layout
+================================ */
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* ================================
+   Sidebar
+================================ */
+
+.sidebar {
+    width: 250px;
+    background: #102a43;
+    color: white;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    padding: 20px 0;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 20px 25px;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.sidebar-brand i {
+    font-size: 23px;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sidebar-menu a {
+    color: #d9e2ec;
+    text-decoration: none;
+    padding: 13px 20px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.sidebar-menu a i {
+    font-size: 18px;
+}
+
+.sidebar-menu a:hover {
+    background: #1f4e79;
+    color: white;
+}
+
+.sidebar-menu a.active {
+    background: #1f4e79;
+    color: white;
+}
+
+
+/* ================================
+   Main Content
+================================ */
+
+.main-content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 30px;
+}
+
+
+/* ================================
+   Page Header
+================================ */
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #102a43;
+}
+
+.page-header p {
+    margin: 7px 0 0;
+    color: #627d98;
+    font-size: 14px;
+}
+
+
+/* ================================
+   Summary Cards
+================================ */
+
+.summary-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 3px 12px rgba(16, 42, 67, 0.08);
+    height: 100%;
+}
+
+.summary-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.summary-icon i {
+    font-size: 23px;
+}
+
+.equipment-icon {
+    background: #eaf2f8;
+    color: #1f4e79;
+}
+
+.maintenance-icon {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.prediction-icon {
+    background: #f3e8ff;
+    color: #7b2cbf;
+}
+
+.fault-icon {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.summary-card span {
+    display: block;
+    color: #7b8794;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.summary-card h3 {
+    margin: 0;
+    color: #102a43;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+
+/* ================================
+   Content Cards
+================================ */
+
+.content-card {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 3px 12px rgba(16, 42, 67, 0.08);
+}
+
+.card-header-custom {
+    margin-bottom: 22px;
+}
+
+.card-header-custom h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #102a43;
+}
+
+.card-header-custom h4 i {
+    margin-right: 7px;
+}
+
+.card-header-custom p {
+    margin: 6px 0 0;
+    color: #7b8794;
+    font-size: 13px;
+}
+
+
+/* ================================
+   Filters
+================================ */
+
+.form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334e68;
+    margin-bottom: 7px;
+}
+
+.form-control,
+.form-select {
+    min-height: 43px;
+    border: 1px solid #d9e2ec;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #1f4e79;
+    box-shadow: 0 0 0 0.15rem rgba(31, 78, 121, 0.12);
+}
+
+.filter-btn {
+    width: 100%;
+    min-height: 43px;
+    background: #1f4e79;
+    border-color: #1f4e79;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.filter-btn:hover {
+    background: #163a5c;
+    border-color: #163a5c;
+}
+
+
+/* ================================
+   Equipment Status Report
+================================ */
+
+.status-report {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.report-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 35px;
+    align-items: center;
+    gap: 12px;
+}
+
+.report-row > span {
+    font-size: 13px;
+    color: #486581;
+}
+
+.report-row strong {
+    text-align: right;
+    color: #243b53;
+    font-size: 13px;
+}
+
+.progress {
+    height: 9px;
+    background: #edf2f7;
+    border-radius: 20px;
+}
+
+.progress-bar {
+    border-radius: 20px;
+}
+
+.healthy-bar {
+    background: #2e7d32;
+}
+
+.warning-bar {
+    background: #d89b00;
+}
+
+.danger-bar {
+    background: #c0392b;
+}
+
+
+/* ================================
+   Maintenance Activity
+================================ */
+
+.maintenance-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 7px;
+    background: #f8fafc;
+}
+
+.activity-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.activity-icon i {
+    font-size: 17px;
+}
+
+.activity-icon.scheduled {
+    background: #eaf2f8;
+    color: #1f4e79;
+}
+
+.activity-icon.due {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.activity-icon.overdue {
+    background: #fde8e7;
+    color: #c0392b;
+}
+
+.activity-icon.completed {
+    background: #e3f9e5;
+    color: #1f7a3f;
+}
+
+.activity-item div:nth-child(2) {
+    flex: 1;
+}
+
+.activity-item strong {
+    display: block;
+    color: #334e68;
+    font-size: 13px;
+}
+
+.activity-item small {
+    display: block;
+    margin-top: 2px;
+    color: #829ab1;
+    font-size: 11px;
+}
+
+.activity-item > span {
+    font-weight: 700;
+    color: #243b53;
+}
+
+
+/* ================================
+   Prediction Report
+================================ */
+
+.prediction-report-card {
+    margin-top: 25px;
+}
+
+.report-table {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.report-table thead th {
+    background: #f5f7fb;
+    color: #486581;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 13px;
+    border-bottom: 1px solid #d9e2ec;
+}
+
+.report-table tbody td {
+    padding: 14px 13px;
+    vertical-align: middle;
+    color: #486581;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.report-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.report-table strong {
+    color: #243b53;
+    font-weight: 600;
+}
+
+
+/* ================================
+   Status Badges
+================================ */
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.status-healthy {
+    background: #e3f9e5;
+    color: #1f7a3f;
+}
+
+.status-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-danger {
+    background: #fde8e7;
+    color: #c0392b;
+}
+
+
+/* ================================
+   Report Actions
+================================ */
+
+.report-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.report-actions .btn {
+    min-height: 42px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.report-actions .btn-primary {
+    background: #1f4e79;
+    border-color: #1f4e79;
+}
+
+.report-actions .btn-primary:hover {
+    background: #163a5c;
+    border-color: #163a5c;
+}
+
+
+/* ================================
+   Responsive Design
+================================ */
+
+@media (max-width: 992px) {
+
+    .sidebar {
+        width: 220px;
+    }
+
+    .main-content {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+        padding: 20px;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .dashboard-container {
+        display: block;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .sidebar-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .sidebar-menu a {
+        padding: 10px 12px;
+    }
+
+    .report-row {
+        grid-template-columns: 80px 1fr 30px;
+    }
+
+    .report-actions {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+}

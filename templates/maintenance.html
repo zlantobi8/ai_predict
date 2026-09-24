@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Maintenance Management</title>
+
+    <!-- Bootstrap 5.3.3 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Maintenance CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/maintenance.css') }}"
+    >
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+            <h4>AI Predictive</h4>
+            <span>Maintenance System</span>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="{{ url_for('dashboard') }}">
+                <i class="bi bi-speedometer2"></i>
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('equipment') }}">
+                <i class="bi bi-tools"></i>
+                Equipment
+            </a>
+
+            <a href="{{ url_for('prediction') }}">
+                <i class="bi bi-cpu"></i>
+                Prediction
+            </a>
+
+            <a href="{{ url_for('maintenance') }}" class="active">
+                <i class="bi bi-wrench-adjustable-circle"></i>
+                Maintenance
+            </a>
+
+            <a href="{{ url_for('reports') }}">
+                <i class="bi bi-bar-chart"></i>
+                Reports
+            </a>
+
+            <a href="{{ url_for('users') }}">
+                <i class="bi bi-people"></i>
+                Users
+            </a>
+
+            <a href="{{ url_for('history') }}">
+                <i class="bi bi-clock-history"></i>
+                History
+            </a>
+            <a href="{{ url_for('alerts') }}">
+                <i class="bi bi-bell"></i>
+                Alerts
+            </a>
+
+            <a href="#" data-logout>
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="main-content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+
+            <div>
+                <h2>Maintenance Management</h2>
+
+                <p>
+                    Schedule, monitor and manage maintenance activities
+                    for campus infrastructure equipment.
+                </p>
+            </div>
+
+            <button
+                class="btn btn-primary add-maintenance-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#addMaintenanceModal"
+            >
+                <i class="bi bi-plus-lg"></i>
+                Add Maintenance
+            </button>
+
+        </div>
+
+
+        <!-- ================= SUMMARY CARDS ================= -->
+        <div class="summary-cards">
+
+            <!-- Scheduled -->
+            <div class="summary-card">
+                <div class="summary-icon scheduled-icon">
+                    <i class="bi bi-calendar-check"></i>
+                </div>
+
+                <div>
+                    <h6>Scheduled</h6>
+                    <h3 id="scheduledCount">0</h3>
+                    <span>Upcoming activities</span>
+                </div>
+            </div>
+
+
+            <!-- Due Soon -->
+            <div class="summary-card">
+                <div class="summary-icon due-icon">
+                    <i class="bi bi-clock"></i>
+                </div>
+
+                <div>
+                    <h6>Due Soon</h6>
+                    <h3 id="dueCount">0</h3>
+                    <span>Within 7 days</span>
+                </div>
+            </div>
+
+
+            <!-- Overdue -->
+            <div class="summary-card">
+                <div class="summary-icon overdue-icon">
+                    <i class="bi bi-exclamation-triangle"></i>
+                </div>
+
+                <div>
+                    <h6>Overdue</h6>
+                    <h3 id="overdueCount">0</h3>
+                    <span>Require attention</span>
+                </div>
+            </div>
+
+
+            <!-- Completed -->
+            <div class="summary-card">
+                <div class="summary-icon completed-icon">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+
+                <div>
+                    <h6>Completed</h6>
+                    <h3 id="completedCount">0</h3>
+                    <span>This month</span>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ================= FILTER SECTION ================= -->
+        <div class="content-card">
+
+            <div class="section-header">
+
+                <div>
+                    <h5>Maintenance Schedule</h5>
+
+                    <p>
+                        View and manage scheduled maintenance activities.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="filter-section">
+
+                <!-- Search -->
+                <div class="search-box">
+                    <i class="bi bi-search"></i>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="maintenanceSearch"
+                        placeholder="Search equipment..."
+                    >
+                </div>
+
+
+                <!-- Maintenance Type -->
+                <select
+                    class="form-select filter-select"
+                    id="maintenanceTypeFilter"
+                >
+                    <option value="">All Maintenance Types</option>
+                    <option value="Preventive">Preventive</option>
+                    <option value="Corrective">Corrective</option>
+                    <option value="Routine">Routine Inspection</option>
+                </select>
+
+
+                <!-- Status -->
+                <select
+                    class="form-select filter-select"
+                    id="maintenanceStatusFilter"
+                >
+                    <option value="">All Status</option>
+                    <option value="Scheduled">Scheduled</option>
+                    <option value="Due Soon">Due Soon</option>
+                    <option value="Overdue">Overdue</option>
+                    <option value="Completed">Completed</option>
+                </select>
+
+            </div>
+
+
+            <!-- ================= TABLE ================= -->
+            <div class="table-responsive">
+
+                <table class="table maintenance-table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Equipment</th>
+                            <th>Maintenance Type</th>
+                            <th>Scheduled Date</th>
+                            <th>Assigned Staff</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody id="maintenanceTableBody"><tr><td colspan="7" class="text-center text-muted py-4">Loading…</td></tr></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= UPCOMING MAINTENANCE ================= -->
+        <div class="content-card upcoming-card">
+
+            <div class="section-header">
+
+                <div>
+                    <h5>Upcoming Maintenance</h5>
+
+                    <p>
+                        Maintenance activities scheduled for the coming days.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="upcoming-list" id="upcomingList"></div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- ================= ADD MAINTENANCE MODAL ================= -->
+
+<div
+    class="modal fade"
+    id="addMaintenanceModal"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+                    <i class="bi bi-wrench-adjustable-circle"></i>
+                    Schedule Maintenance
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <form id="maintenanceForm">
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label class="form-label">Equipment</label>
+                            <select class="form-select" id="mEquipment" required>
+                                <option value="">Select Equipment</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Maintenance Type</label>
+                            <select class="form-select" id="mType" required>
+                                <option value="">Select Type</option>
+                                <option value="Preventive">Preventive</option>
+                                <option value="Corrective">Corrective</option>
+                                <option value="Routine Inspection">Routine Inspection</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Scheduled Date</label>
+                            <input type="date" class="form-control" id="mDate" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Assigned Staff</label>
+                            <input type="text" class="form-control" id="mStaff"
+                                   placeholder="Enter staff name" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" id="mStatus">
+                                <option value="scheduled">Scheduled</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Maintenance Description</label>
+                            <textarea class="form-control" id="mDescription" rows="4"
+                                      placeholder="Enter maintenance activity or notes..."></textarea>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="saveMaintenance()"
+                >
+                    <i class="bi bi-check-lg"></i>
+                    Schedule Maintenance
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Bootstrap JS -->
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+<script src="{{ url_for('static', filename='js/api.js') }}"></script>
+<script src="{{ url_for('static', filename='js/maintenance.js') }}"></script>
+</body>
+</html>

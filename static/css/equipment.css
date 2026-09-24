@@ -1,0 +1,180 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+}
+
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background: #102a43;
+    padding: 25px 15px;
+    color: white;
+}
+
+.sidebar h3 {
+    text-align: center;
+    margin-bottom: 3px;
+}
+
+.system-name {
+    text-align: center;
+    color: #cbd5e1;
+    font-size: 12px;
+    margin-bottom: 30px;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 13px 15px;
+    margin-bottom: 6px;
+    border-radius: 7px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #1f4e79;
+}
+
+.logout {
+    margin-top: 30px;
+}
+
+
+/* MAIN CONTENT */
+
+.content {
+    flex: 1;
+    padding: 30px;
+}
+
+
+/* PAGE HEADER */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.page-header h2 {
+    margin-bottom: 5px;
+}
+
+.page-header p {
+    color: #64748b;
+}
+
+
+/* FILTER */
+
+.filter-panel {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+
+/* TABLE PANEL */
+
+.equipment-panel {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.panel-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.panel-title span {
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* TABLE */
+
+.table thead th {
+    background: #102a43;
+    color: white;
+    font-size: 14px;
+}
+
+.table td {
+    font-size: 14px;
+}
+
+
+/* STATUS */
+
+.status {
+    display: inline-block;
+    padding: 5px 11px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.healthy {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.risk {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.faulty {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+
+/* BUTTON */
+
+.btn-primary {
+    background: #1f4e79;
+    border-color: #1f4e79;
+}
+
+.btn-primary:hover {
+    background: #163a5c;
+    border-color: #163a5c;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        width: 190px;
+    }
+
+    .content {
+        padding: 15px;
+    }
+
+    .page-header {
+        display: block;
+    }
+
+    .page-header button {
+        margin-top: 15px;
+    }
+
+}
